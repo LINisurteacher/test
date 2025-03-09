@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 面向量表雷達圖</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+
+        input {
+            width: 50px;
+            text-align: center;
+            padding: 5px;
+            margin: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>7 面向量表雷達圖</h2>
+        <p>請輸入 7 個面向的數值（1-10）</p>
+
+        <label>放鬆活動: <input type="number" id="aspect1" min="1" max="10" value="5"></label>
+        <label>成長型活動: <input type="number" id="aspect2" min="1" max="10" value="5"></label>
+        <label>社交活動: <input type="number" id="aspect3" min="1" max="10" value="5"></label>
+        <label>環境優美的活動: <input type="number" id="aspect4" min="1" max="10" value="5"></label>
+        <label>有生產力的活動: <input type="number" id="aspect5" min="1" max="10" value="5"></label>
+        <label>美感活動: <input type="number" id="aspect6" min="1" max="10" value="5"></label>
+        <label>娛樂活動: <input type="number" id="aspect7" min="1" max="10" value="5"></label>
+        <br><br>
+        <button onclick="generateChart()">產生雷達圖</button>
+
+        <canvas id="radarChart"></canvas>
+    </div>
+
+    <script>
+        function generateChart() {
+            let dataValues = [
+                document.getElementById("aspect1").value,
+                document.getElementById("aspect2").value,
+                document.getElementById("aspect3").value,
+                document.getElementById("aspect4").value,
+                document.getElementById("aspect5").value,
+                document.getElementById("aspect6").value,
+                document.getElementById("aspect7").value
+            ].map(Number);
+
+            if (window.myRadarChart) {
+                window.myRadarChart.destroy();
+            }
+
+            let ctx = document.getElementById("radarChart").getContext("2d");
+            window.myRadarChart = new Chart(ctx, {
+                type: "radar",
+                data: {
+                    labels: [
+                        "放鬆活動", "成長型活動", "社交活動", 
+                        "環境優美的活動", "有生產力的活動", "美感活動", "娛樂活動"
+                    ],
+                    datasets: [{
+                        label: "評分",
+                        data: dataValues,
+                        backgroundColor: "rgba(54, 162, 235, 0.2)",
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 10,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
